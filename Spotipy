@@ -7,8 +7,8 @@ import sys # For clean exits
 # --- Setup Stuff ---
 # IMPORTANT: Grab your Spotify API credentials from:
 # https://developer.spotify.com/dashboard/
-SPOTIPY_CLIENT_ID = '3f12af3dbe4543dabd5005970277d5d0' # Your Spotify Client ID goes here
-SPOTIPY_CLIENT_SECRET = 'd52152b65d1947bab1d2f583028f8108' # And your secret key here
+SPOTIPY_CLIENT_ID = 'YOUR_SPOTIPY_CLIENT_ID' # Your Spotify Client ID goes here
+SPOTIPY_CLIENT_SECRET = 'YOUR_SPOTIPY_CLIENT_SECRET' # And your secret key here
 
 # --- Quick Helper Functions ---
 
