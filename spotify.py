@@ -2,7 +2,7 @@ import os
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import yt_dlp
-import sys # For clean exits
+import sys
 
 # --- Setup Stuff ---
 # IMPORTANT: Grab your Spotify API credentials from:
@@ -10,7 +10,7 @@ import sys # For clean exits
 SPOTIPY_CLIENT_ID = 'YOUR_SPOTIPY_CLIENT_ID' # Your Spotify Client ID goes here
 SPOTIPY_CLIENT_SECRET = 'YOUR_SPOTIPY_CLIENT_SECRET' # And your secret key here
 
-# --- Quick Helper Functions ---
+
 
 def get_spotify_track_info(track_url):
     """
@@ -23,13 +23,10 @@ def get_spotify_track_info(track_url):
         return None, None
 
     try:
-        # Hook up to Spotify
         sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SPOTIPY_CLIENT_ID,
                                                                    client_secret=SPOTIPY_CLIENT_SECRET))
 
-        # Get track details
         track = sp.track(track_url)
-
         artist_name = track['artists'][0]['name']
         track_title = track['name']
         print(f"\nFound it on Spotify:")
@@ -53,20 +50,20 @@ def download_youtube_audio(search_query, output_dir='downloads'):
         os.makedirs(output_dir)
         print(f"Made a new folder for downloads: {output_dir}")
 
-    # yt-dlp options for audio only, converted to MP3
+
     ydl_opts = {
-        'format': 'bestaudio/best', # Get the best audio quality
+        'format': 'bestaudio/best', #best audio quality
         'postprocessors': [{
             'key': 'FFmpegExtractAudio', # Use FFmpeg to get just the audio
-            'preferredcodec': 'mp3',     # Make it an MP3
+            'preferredcodec': 'mp3', 
             'preferredquality': '192',   # Decent quality
         }],
-        'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'), # Where to save the file
-        'noplaylist': True, # Don't download entire playlists
+        'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'), # Location of file
+        'noplaylist': True, 
         'default_search': 'ytsearch', # Search YouTube by default
         'verbose': False, # Keep yt-dlp quiet
         'quiet': True, # Really quiet
-        'print_json': True, # Get metadata as JSON
+        'print_json': True, 
         'logtostderr': False, # Don't log to standard error
     }
 
@@ -74,11 +71,10 @@ def download_youtube_audio(search_query, output_dir='downloads'):
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # Search and download the first hit
+            # This searches and downloads the first hit
             info = ydl.extract_info(search_query, download=True)
-            # Check what was downloaded
+            # To check what was downloaded
             if info and 'entries' in info and len(info['entries']) > 0:
-                # This means it grabbed one from a search list
                 downloaded_file = ydl.prepare_filename(info['entries'][0])
                 downloaded_file = os.path.splitext(downloaded_file)[0] + '.mp3' # Fix extension
                 print(f"\nFinished downloading: {downloaded_file}")
@@ -95,7 +91,7 @@ def download_youtube_audio(search_query, output_dir='downloads'):
     except Exception as e:
         print(f"\nUnexpected error during YouTube download: {e}")
 
-# --- Main Program Start ---
+
 
 def main():
     """
@@ -124,6 +120,5 @@ def main():
         print("\nCouldn't get Spotify info. Can't download without it. Exiting.")
         sys.exit(1)
 
-# Run the show
 if __name__ == "__main__":
     main()
